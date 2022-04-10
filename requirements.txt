@@ -1,0 +1,5 @@
+django
+djangorestframework
+django-oauth-toolkit
+gunicorn
+django-heroku
