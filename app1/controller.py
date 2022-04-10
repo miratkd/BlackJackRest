@@ -52,7 +52,7 @@ def create_card(hand, position):
 
 
 def get_points(math):
-    hands = models.Hand.objects.filter(math=math, round=math.active_round)
+    hands = models.Hand.objects.filter(math=math, round=math.math_active_round)
     for hand in hands:
         all_cards = models.Card.objects.filter(hand=hand)
         total_value = 0
@@ -75,7 +75,7 @@ def get_points(math):
 
 
 def draw_player_card(math):
-    hand = models.Hand.objects.get(math=math, round=math.active_round, is_player_hand=True)
+    hand = models.Hand.objects.get(math=math, round=math.math_active_round, is_player_hand=True)
     if hand.is_out or hand.is_hold:
         raise exceptions.IsOutException
     create_card(hand, len(models.Card.objects.filter(hand=hand)) + 1)
@@ -83,7 +83,7 @@ def draw_player_card(math):
 
 
 def next_round(math):
-    if math.active_round >= 5:
+    if math.math_active_round >= 5:
         if math.rounds_won == 5:
             math.is_over = True
             math.is_win = True
@@ -91,23 +91,23 @@ def next_round(math):
             math.account.save()
             math.save()
             raise exceptions.MathIsOverException(is_player_win=True)
-        elif math.active_round - math.rounds_won == 5:
+        elif math.math_active_round - math.rounds_won == 5:
             math.is_over = True
             math.save()
             raise exceptions.MathIsOverException(is_player_win=False)
 
-    math.active_round += 1
+    math.math_active_round += 1
     math.save()
 
     player_hand = models.Hand.objects.create(
-        round=math.active_round,
+        round=math.math_active_round,
         math=math,
         total_point=0,
         is_out=False,
         is_player_hand=True
     )
     dealer_hand = models.Hand.objects.create(
-        round=math.active_round,
+        round=math.math_active_round,
         math=math,
         total_point=0,
         is_out=False,
@@ -123,7 +123,7 @@ def next_round(math):
 
 
 def draw_dealer_card(math, player_points):
-    dealer_hand = models.Hand.objects.get(math=math, round=math.active_round, is_player_hand=False)
+    dealer_hand = models.Hand.objects.get(math=math, round=math.math_active_round, is_player_hand=False)
     if dealer_hand.is_out:
         math.rounds_won += 1
         math.save()
@@ -136,7 +136,7 @@ def draw_dealer_card(math, player_points):
 
 
 def hold_round(math):
-    player_hand = models.Hand.objects.get(math=math, round=math.active_round, is_player_hand=True)
+    player_hand = models.Hand.objects.get(math=math, round=math.math_active_round, is_player_hand=True)
     if player_hand.is_hold:
         raise exceptions.AlreadyHoldException
     if player_hand.is_out:

@@ -87,7 +87,7 @@ class MathSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Math
         fields = '__all__'
-        read_only_fields = ['prize', 'date', 'active_round', 'is_win', 'rounds_won']
+        read_only_fields = ['prize', 'date', 'math_active_round', 'is_win', 'rounds_won']
 
     def create(self, validated_data):
         account = models.Account.objects.get(pk=validated_data['account'].id)
@@ -97,20 +97,20 @@ class MathSerializer(serializers.ModelSerializer):
             math = models.Math.objects.create(
                 prize=int(validated_data['buy_in_value']) * 2,
                 date=datetime.datetime.now(),
-                active_round=1,
+                math_active_round=1,
                 account=account,
                 is_win=False,
                 rounds_won=0
             )
             player_hand = models.Hand.objects.create(
-                round=math.active_round,
+                round=math.math_active_round,
                 math=math,
                 total_point=0,
                 is_out=False,
                 is_player_hand=True
             )
             dealer_hand = models.Hand.objects.create(
-                round=math.active_round,
+                round=math.math_active_round,
                 math=math,
                 total_point=0,
                 is_out=False,
@@ -128,11 +128,11 @@ class MathSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        player_hand = models.Hand.objects.get(math=instance, round=instance.active_round, is_player_hand=True)
-        dealer_hand = models.Hand.objects.get(math=instance, round=instance.active_round, is_player_hand=False)
+        player_hand = models.Hand.objects.get(math=instance, round=instance.math_active_round, is_player_hand=True)
+        dealer_hand = models.Hand.objects.get(math=instance, round=instance.math_active_round, is_player_hand=False)
         ret['player_hand'] = HandSerializer(player_hand).data
         if player_hand.is_hold:
-            ret['dealer_hand'] = HandSerializer(models.Hand.objects.get(math=instance, round=instance.active_round,
+            ret['dealer_hand'] = HandSerializer(models.Hand.objects.get(math=instance, round=instance.math_active_round,
                                                                         is_player_hand=False)).data
         else:
             ret['dealer_hand'] = [

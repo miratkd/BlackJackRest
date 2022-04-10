@@ -120,8 +120,8 @@ class SystemTest(APITestCase):
         self.math_id = content.get('id')
         self.assertEqual(response.status_code, 201)
         self.assertEqual(content.get('prize'), buy_in * 2)
-        self.assertEqual(content.get('active_round'), 1)
-        self.active_round = content.get('active_round')
+        self.assertEqual(content.get('math_active_round'), 1)
+        self.math_active_round = content.get('math_active_round')
         self.assertEqual(content.get('is_win'), False)
         self.assertEqual(content.get('rounds_won'), 0)
         self.rounds_won = content.get('rounds_won')
@@ -130,7 +130,7 @@ class SystemTest(APITestCase):
         self.chose_action(content)
 
     def chose_action(self, content):
-        self.assertEqual(content.get('active_round'), content.get('player_hand').get('round'))
+        self.assertEqual(content.get('math_active_round'), content.get('player_hand').get('round'))
         if content.get('player_hand').get('total_point') < 22:
             self.assertEqual(content.get('player_hand').get('is_out'), False)
             if content.get('player_hand').get('total_point') < 16:
@@ -146,8 +146,8 @@ class SystemTest(APITestCase):
         content = json.loads(response.content.decode('utf-8'))
         self.assertEqual(response.status_code, 200)
         self.chose_action(content)
-        # self.assertEqual(content.get('active_round'), content.get('player_hand').get('round'))
-        # self.assertEqual(content.get('active_round'), content.get('dealer_hand').get('round'))
+        # self.assertEqual(content.get('math_active_round'), content.get('player_hand').get('round'))
+        # self.assertEqual(content.get('math_active_round'), content.get('dealer_hand').get('round'))
         # if content.get('total_point') < 22:
         #     self.assertEqual(content.get('is_out'), False)
         #     if content.get('total_point') < 16:
@@ -161,8 +161,8 @@ class SystemTest(APITestCase):
         response = self.client.put('/math/' + str(self.math_id) + '/hold/')
         content = json.loads(response.content.decode('utf-8'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(content.get('math').get('active_round'), content.get('math').get('player_hand').get('round'))
-        self.assertEqual(content.get('math').get('active_round'), content.get('math').get('dealer_hand').get('round'))
+        self.assertEqual(content.get('math').get('math_active_round'), content.get('math').get('player_hand').get('round'))
+        self.assertEqual(content.get('math').get('math_active_round'), content.get('math').get('dealer_hand').get('round'))
         player_points = content.get('math').get('player_hand').get('total_point')
         dealer_points = content.get('math').get('dealer_hand').get('total_point')
         if dealer_points < player_points < 22 or dealer_points > 21:
@@ -178,7 +178,7 @@ class SystemTest(APITestCase):
         else:
             self.assertEqual(content.get('message'), 'Sorry, you lose this round.')
             self.assertEqual(content.get('math').get('rounds_won'), self.rounds_won)
-            dealer_wins = (content.get('math').get('active_round') - 1) - content.get('math').get('rounds_won')
+            dealer_wins = (content.get('math').get('math_active_round') - 1) - content.get('math').get('rounds_won')
             # if dealer_wins > 4:
             #     self.assertEqual(content.get('math').get('is_win'), False)
             #     self.assertEqual(content.get('math').get('is_over'), True)
@@ -203,15 +203,15 @@ class SystemTest(APITestCase):
 
             return
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(content.get('active_round'), self.active_round + 1)
-        self.active_round += 1
+        self.assertEqual(content.get('math_active_round'), self.math_active_round + 1)
+        self.math_active_round += 1
         self.chose_action(content)
 
     def test_points_1(self):
         math = models.Math.objects.create(
             prize=500,
             date=datetime.datetime.now(),
-            active_round=1,
+            math_active_round=1,
             account=self.account,
             rounds_won=0,
         )
@@ -267,7 +267,7 @@ class SystemTest(APITestCase):
         math = models.Math.objects.create(
             prize=500,
             date=datetime.datetime.now(),
-            active_round=1,
+            math_active_round=1,
             account=self.account,
             rounds_won=0,
         )
