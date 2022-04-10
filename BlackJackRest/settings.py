@@ -80,10 +80,15 @@ WSGI_APPLICATION = 'BlackJackRest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7p2k5fkhecrvl',
+        'HOST': 'ec2-34-194-158-176.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'lvxktmodnvjpsn',
+        'PASSWORD': '9c2acc04c6f7a7fa4367f1e012f5f3a4c10cdf8c5291a06f96cf9aa4b290d61c'
     }
 }
+# postgres://lvxktmodnvjpsn:9c2acc04c6f7a7fa4367f1e012f5f3a4c10cdf8c5291a06f96cf9aa4b290d61c@ec2-34-194-158-176.compute-1.amazonaws.com:5432/d7p2k5fkhecrvl
 
 
 # Password validation

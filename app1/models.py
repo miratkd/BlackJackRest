@@ -59,11 +59,11 @@ class CouponHistory(models.Model):
 class Math(models.Model):
     prize = models.IntegerField(verbose_name='premio')
     date = models.DateTimeField(verbose_name='data')
-    active_round = models.IntegerField(verbose_name='round ativo')
     account = models.ForeignKey(to=Account, related_name='maths', verbose_name='conta', on_delete=models.CASCADE)
     is_win = models.BooleanField(default=False, verbose_name='ganhou')
     rounds_won = models.IntegerField(verbose_name='rounds ganhos.')
     is_over = models.BooleanField(default=False, verbose_name='partida finalizada')
+    math_active_round = models.IntegerField(verbose_name='round ativo')
 
     class Meta:
         verbose_name_plural = "partidas"
