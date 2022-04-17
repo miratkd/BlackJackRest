@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-4yivy&ms4#n=zempdq-u6$@mi$*&%%luv_k0i@#cgcniclp6@s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8080',
+    'https://black-jack-rest.netlify.app',
+)
 
 
 # Application definition
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
     'app1',
     'rest_framework',
     'oauth2_provider',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'BlackJackRest.urls'
