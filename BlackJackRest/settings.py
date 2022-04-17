@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4yivy&ms4#n=zempdq-u6$@mi$*&%%luv_k0i@#cgcniclp6@s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://black-jack-rest.netlify.app/']
 
 
 # Application definition
