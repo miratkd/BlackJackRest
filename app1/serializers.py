@@ -16,7 +16,8 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Account
-        fields = ['id', 'user', 'tickets']
+        fields = ['id', 'user']
+        read_only_fields = ['tickets']
 
     # def delete(self, pk):
     #     print('foi')
@@ -35,12 +36,12 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Account
-        fields = ['user', 'tickets']
+        fields = ['user']
 
     def create(self, validated_data):
         user = validated_data.get('user')
         user = User.objects.create_user(username=user.get('username'), email=user.get('email'), password=user['password'])
-        return models.Account.objects.create(user=user, tickets=validated_data.get('tickets'))
+        return models.Account.objects.create(user=user, tickets=500)
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):
@@ -54,14 +55,13 @@ class UpdateAccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Account
-        fields = ['user', 'tickets']
+        fields = ['user']
 
     def update(self, instance, validated_data):
         user = validated_data['user']
         instance.user.first_name = user['first_name']
         instance.user.last_name = user['last_name']
         instance.user.email = user['email']
-        instance.tickets = validated_data['tickets']
         instance.user.save()
         instance.save()
         return instance
