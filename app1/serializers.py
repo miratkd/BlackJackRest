@@ -28,7 +28,8 @@ class AccountSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id', 'username', 'email']
+        password = serializers.CharField(write_only=True)
 
 
 class CreateAccountSerializer(serializers.ModelSerializer):
@@ -40,7 +41,8 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = validated_data.get('user')
-        user = User.objects.create_user(username=user.get('username'), email=user.get('email'), password=user['password'])
+        user = User.objects.create_user(username=user.get('username'), email=user.get('email'),
+                                        password=validated_data.get('password'))
         return models.Account.objects.create(user=user, tickets=500)
 
 
