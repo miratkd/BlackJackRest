@@ -16,7 +16,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Account
-        fields = ['id', 'user']
+        fields = ['id', 'user', 'tickets']
         read_only_fields = ['tickets']
 
     # def delete(self, pk):
