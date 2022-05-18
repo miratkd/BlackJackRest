@@ -25,7 +25,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         self.serializer_class = serializers.UpdateAccountSerializer
         if not request.user.id:
             return Response(data="you need a token for this endpoint", status=401)
-        if request.user.id != int(pk):
+        if request.user.id != models.Account.objects.get(id=int(pk)).user.id:
             return Response(data="you can only update your account", status=401)
         return super().update(request, pk)
 
