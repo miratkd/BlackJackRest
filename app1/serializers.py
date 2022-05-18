@@ -26,10 +26,11 @@ class AccountSerializer(serializers.ModelSerializer):
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
-        password = serializers.CharField(write_only=True)
+        fields = ['id', 'username', 'email', 'password']
 
 
 class CreateAccountSerializer(serializers.ModelSerializer):
