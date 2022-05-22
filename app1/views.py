@@ -40,7 +40,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None):
         if not request.user.id:
             return Response(data="you need a token for this endpoint", status=401)
-        if request.user.id != int(pk):
+        if request.user.id != models.Account.objects.get(id=int(pk)).user.id:
             return Response(data="you can only delete your account", status=401)
         # self.serializer_class.delete(pk=pk)
         return super().destroy(request, pk)
