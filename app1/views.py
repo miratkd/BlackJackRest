@@ -73,7 +73,18 @@ class MathViewSet(viewsets.ModelViewSet):
     queryset = models.Math.objects.all()
     serializer_class = serializers.MathSerializer
     permission_classes = [IsAuthenticated]
-    http_method_names = ['post', 'put']
+    http_method_names = ['post', 'put', 'get']
+
+    def list(self, request):
+        return Response(status=405)
+
+    def retrieve(self, request, pk=None):
+        try:
+            if request.user.id != models.Math.objects.get(id=pk).account.user.id:
+                return Response(data="you can only get the info for your account", status=401)
+            return super().retrieve(request, pk)
+        except models.Math.DoesNotExist:
+            return Response(status=404)
 
     def create(self, request, *args, **kwargs):
         try:

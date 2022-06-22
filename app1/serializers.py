@@ -98,7 +98,7 @@ class MathSerializer(serializers.ModelSerializer):
             account.tickets -= int(validated_data['buy_in_value'])
             account.save()
             math = models.Math.objects.create(
-                prize=int(validated_data['buy_in_value']) * 2,
+                prize=int(validated_data['buy_in_value']) * 3,
                 date=datetime.datetime.now(),
                 math_active_round=1,
                 account=account,
