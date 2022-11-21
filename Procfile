@@ -1,1 +1,1 @@
-web: gunicorn BlackJackRest.wsgi
+web: gunicorn BlackJackRest.wsgi --log-file -
