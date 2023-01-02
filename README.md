@@ -5,7 +5,7 @@ das partidas, assim como o histórico delas e registros dos usuários são persi
 facilmente acessado através do admin próprio do framework Django. A API oferece todos os end-points para a criação de um jogo de black-jack (também conhecido no Brasil
 como "21"), dês da criação dos usuários que serão usados no sistema, até o end-points para criar partida, sacar as carta, finalizar o round, etc.
  
- Para ver uma implementação completa desse Back-End, por favor de uma olhada também no projeto BlackJackRestFrontEnd, um
+ Para ver uma implementação completa desse Back-End, por favor de uma olhada também no projeto [BlackJackRestFrontEnd](https://github.com/miratkd/black-jack-rest-front-end), um
  site Single-Page-Aplication desenvolvido usando o framework VueJs que consome todos os end-points desse projeto.
  
  Abaixo segue a documentação da API.
